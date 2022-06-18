@@ -1,0 +1,20 @@
+{
+  "name": "curso-practico-apiRest",
+  "version": "1.0.0",
+  "description": "Course for to practice ApiRest Platzi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesusalejos/curso-practico-apiRest.git"
+  },
+  "keywords": [],
+  "author": "Jesus Alejos <jalejos6@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jesusalejos/curso-practico-apiRest/issues"
+  },
+  "homepage": "https://github.com/jesusalejos/curso-practico-apiRest#readme"
+}
