@@ -89,15 +89,15 @@ button {
 
 
 /* Shared */
-.header-container, .trendingPreview-header, .categoriesPreview-container {
+.header-container, .trendingPreview-header, .categoriesPreview-container, .liked-header {
   padding: 0 24px;
 }
 
-.trendingPreview-container, .categoriesPreview-container, footer {
+.trendingPreview-container, .categoriesPreview-container, .liked-container, footer {
   margin-top: 48px;
 }
 
-.trendingPreview-header, .categoriesPreview-title {
+.trendingPreview-header, .categoriesPreview-title, .liked-header {
   margin-bottom: 24px;
 }
 
@@ -127,6 +127,28 @@ button {
 .movie-img {
   border-radius: 8px;
   min-height: 175px;
+}
+
+.movie-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 30px;
+  padding: 0;
+  margin: 0;
+}
+.movie-btn::before {
+  content: '🤍';
+  /* font-size: 13px; */
+}
+.movie-btn--liked {
+  background-color: var(--purple-light-2);
+  box-shadow: 0px 0px 10px 2px var(--purple-dark-1);
+}
+.movie-btn--liked::before {
+  content: '💜';
 }
 
 .categoriesPreview-list, .categories-list {

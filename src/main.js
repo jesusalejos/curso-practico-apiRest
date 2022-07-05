@@ -51,7 +51,14 @@ const api = axios.create({
         'src',
         'https://static.platzi.com/static/images/error/img404.png',
       );
-    })
+    });
+
+     const movieBtn = document.createElement('button');
+    movieBtn.classList.add('movie-btn');
+    movieBtn.addEventListener('click', () => {
+      movieBtn.classList.toggle('movie-btn--liked');
+      // DEBERIAMOS AGREGAR LA PELICULA A LS
+    });
 
     if (lazyLoad) {
       lazyLoader.observe(movieImg);
@@ -107,8 +114,39 @@ function createCategories(categories, container) {
       },
     });
     const movies = data.results;
+    maxPage = data.total_pages;
   
-    createMovies(movies,genericSection,true);
+    createMovies(movies, genericSection, { lazyLoad: true });
+  }
+
+  function getPaginatedMoviesByCategory(id) {
+    return async function () {
+      const {
+        scrollTop,
+        scrollHeight,
+        clientHeight
+      } = document.documentElement;
+      
+      const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+      const pageIsNotMax = page < maxPage;
+    
+      if (scrollIsBottom && pageIsNotMax) {
+        page++;
+        const { data } = await api('discover/movie', {
+          params: {
+            with_genres: id,
+            page,
+          },
+        });
+        const movies = data.results;
+      
+        createMovies(
+          movies,
+          genericSection,
+          { lazyLoad: true, clean: false },
+        );
+      }
+    }
   }
 
   async function getMoviesBySearch(query) {
@@ -118,12 +156,40 @@ function createCategories(categories, container) {
       },
     });
     const movies = data.results;
-
-    
+    maxPage = data.total_pages;    
   
-    createMovies(movies, genericSection,true);
+    createMovies(movies, genericSection, { lazyLoad: true });
   }
   
+  function getPaginatedMoviesBySearch(query) {
+    return async function () {
+      const {
+        scrollTop,
+        scrollHeight,
+        clientHeight
+      } = document.documentElement;
+      
+      const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+      const pageIsNotMax = page < maxPage;
+    
+      if (scrollIsBottom && pageIsNotMax) {
+        page++;
+        const { data } = await api('search/movie', {
+          params: {
+            query,
+            page,
+          },
+        });
+        const movies = data.results;
+      
+        createMovies(
+          movies,
+          genericSection,
+          { lazyLoad: true, clean: false },
+        );
+      }
+    }
+  }
 
   async function getTrendingMovies() {
     page++;
@@ -132,46 +198,62 @@ function createCategories(categories, container) {
         page,}
       });
     const movies = data.results;
+    maxPage = data.total_pages;
   
     createMovies(movies, genericSection, { lazyLoad: true, clean: true });
 
-  const btnLoadMore = document.createElement('button');
-  btnLoadMore.innerText = 'Cargar más';
-  btnLoadMore.addEventListener('click', ()=> {
-    // btnLoadMore.style.display = 'none';
-    getPaginatedTrendingMovies();
-    btnLoadMore.remove();
-  });
-  genericSection.appendChild(btnLoadMore);
+  // const btnLoadMore = document.createElement('button');
+  // btnLoadMore.innerText = 'Cargar más';
+  // btnLoadMore.addEventListener('click', ()=> {
+  //   // btnLoadMore.style.display = 'none';
+  //   getPaginatedTrendingMovies();
+  //   btnLoadMore.remove();
+  // });
+  // genericSection.appendChild(btnLoadMore);
   }
 
-  let page = 1;
-
+  
+  
   async function getPaginatedTrendingMovies() {
-    page++;
-    const { data } = await api('trending/movie/day', {
-      params: {
-        page,
-      },
-    });
-    const movies = data.results;
-  
-    createMovies(
-      movies,
-      genericSection,
-      { lazyLoad: true, clean: false },
-    );
-  
-    const btnLoadMore = document.createElement('button');
-    btnLoadMore.innerText = 'Cargar más';
-    btnLoadMore.addEventListener('click', ()=> {
-      // btnLoadMore.style.display = 'none';
-      getPaginatedTrendingMovies();
-      btnLoadMore.remove();
-    });
-    genericSection.appendChild(btnLoadMore);
-  }
+    const {
+      scrollTop,
+      scrollHeight,
+      clientHeight
+    } = document.documentElement;
+    
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    const pageIsNotMax = page < maxPage;
 
+
+    if (scrollIsBottom & pageIsNotMax) {
+
+  page++;
+  const { data } = await api('trending/movie/day', {
+    params: {
+      page,
+    },
+  });
+  const movies = data.results;
+
+  createMovies(
+    movies,
+    genericSection,
+    { lazyLoad: true, clean: false },
+  );
+
+  // const btnLoadMore = document.createElement('button');
+  // btnLoadMore.innerText = 'Cargar más';
+  // btnLoadMore.addEventListener('click', ()=> {
+  //   // btnLoadMore.style.display = 'none';
+  //   getPaginatedTrendingMovies();
+  //   btnLoadMore.remove();
+  // });
+  // genericSection.appendChild(btnLoadMore);
+}
+
+
+}
+  
   async function getMovieById(id) {
     const { data: movie } = await api('movie/' + id);
   
@@ -201,3 +283,4 @@ function createCategories(categories, container) {
 
   createMovies(relatedMovies, relatedMoviesContainer,true);
 }
+
