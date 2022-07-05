@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hiveio/hive-js/dist/hive.min.js"></script> <!-- scriptdehive -->
+<script src="https://unpkg.com/@hiveio/dhive@latest/dist/dhive.js"></script>
+<script>
+
+// hive.api.callAsync('condenser_api.get_accounts', [['jesusalejos']]) //api (método, parámetro)
+//   .then((res) => console.log(res[0]));
+// hive.api.callAsync('condenser_api.get_accounts', [['jesusalejos']]) //api (método, parámetro)
+//   .then((res) => console.log(res[0].tags_usage[0].map(element => {console.log(element)})));
+
+
+const x = hive.api.getBlog("jesusalejos", 200, 4, function(err, data) {
+	console.log(err, data);
+});
+
+
+
+// let names = ["jesusalejos"];
+
+// let name = "jesusalejos"
+
+// hive.api.getAccounts(names, function(err, result) {
+//   console.log(err, result);
+// });
+
+// hive.api.callAsync('condenser_api.get_accounts', [['jesusalejos']])
+//   .then((res) => console.log(res[0]))
+
+// hive.api.getOwnerHistory(name, function(err, result) {
+//   return err, result
+// //   return result;
+// });
+
+// hive.api.getOwnerHistory(name, function(err, result) {
+//   return err, result
+// //   return result;
+// });
+
+// hive.api.callAsync("condenser_api.get_owner_history", "jesusalejos")
+// .then((res) => console.log(res))
+
+  
+// const total = hive.api.getAccountCount(function(err, result) {
+//   console.log(err, result);
+// });
+
+
+
+// const total = hive.api.getAccountCount(function(err, result) {
+//   err, result;
+//   total = y;
+//   return y;
+// });
+
+// console.log("total es " + total);
+
+
+
+// hive.api.getCurrentMedianHistoryPrice(function(err, result) {
+//   console.log(err, result);
+// });
+
+var query = {
+    tag: 'jesusalejos', // This tag is used to filter the results by a specific post tag
+    limit: 4, // This limit allows us to limit the overall results returned to 5
+};
+
+var client = new dhive.Client("https://api.hive.blog");
+  client.database
+    .getDiscussions("blog", query)
+    .then(function(discussions) {
+    	console.log(discussions);
+      document.body.innerHTML += "<h1>" + discussions[0].title + "</h1>";
+      document.body.innerHTML += "<h2>by " + discussions[0].author + "</h2>";
+      document.body.innerHTML += "<h1>" + discussions[1].title + "</h1>";
+      document.body.innerHTML += "<h2>by " + discussions[1].author + "</h2>";
+      document.body.innerHTML += "<h1>" + discussions[2].title + "</h1>";
+      document.body.innerHTML += "<h2>by " + discussions[2].author + "</h2>";
+      document.body.innerHTML += "<h1>" + discussions[3].title + "</h1>";
+      document.body.innerHTML += "<h2>by " + discussions[3].author + "</h2>";
+      // document.body.innerHTML +=
+      //   '<pre style="white-space: pre-wrap">' + discussions[0].body + "</pre>";
+    });
+
+
+
+
+</script>
+</body>
+</html>
